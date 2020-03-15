@@ -14,4 +14,4 @@ extra-deps:
 when:
 - condition: os(osx)
   then:
-    cpp-options: -D_SDL_main_h
+    cpp-options: -D_SDL_main_h -DSDL_main_h_
