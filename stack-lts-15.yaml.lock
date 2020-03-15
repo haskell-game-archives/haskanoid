@@ -5,12 +5,19 @@
 
 packages:
 - completed:
-    hackage: Yampa-0.13.1@sha256:4612a2646c27bcd3ac55c90dbc34249303e28aa5b3bc3e0c6fa9ce58b889843c,5436
+    size: 115006
+    url: https://github.com/haskell-hvr/missingh/archive/a936764af1c674f8217c237223c0759e4e4c0684.tar.gz
+    cabal-file:
+      size: 4650
+      sha256: c5f623e90ed329e2a18f3850545f0ce5418d81db89f2dfd6177e504845680986
+    name: MissingH
+    version: 1.4.2.0
+    sha256: 87ef5961789f366f8900ae160296215f2dadafab2649c5fdaeac501b0e7cda36
     pantry-tree:
-      size: 4039
-      sha256: 2ebdfafc0143a66132e1f790fc3909c93654ee89fbe468574c5c2a36070dc6b3
+      size: 5908
+      sha256: 034a509a2ba4e467da28c6ad6aba9b9e4a6b8591d01fadeef9f1497a43e38b2f
   original:
-    hackage: Yampa-0.13.1@sha256:4612a2646c27bcd3ac55c90dbc34249303e28aa5b3bc3e0c6fa9ce58b889843c,5436
+    url: https://github.com/haskell-hvr/missingh/archive/a936764af1c674f8217c237223c0759e4e4c0684.tar.gz
 - completed:
     hackage: IfElse-0.85@sha256:6939b94acc6a55f545f63a168a349dd2fbe4b9a7cca73bf60282db5cc6aa47d2,445
     pantry-tree:
@@ -47,22 +54,22 @@ packages:
   original:
     hackage: SDL-ttf-0.6.3.0@sha256:e599ef3256b489071d0af6eccdc3a139ef09c09f935357a6c23766ed5ca2de45,1462
 - completed:
+    hackage: Yampa-0.13.1@sha256:4612a2646c27bcd3ac55c90dbc34249303e28aa5b3bc3e0c6fa9ce58b889843c,5436
+    pantry-tree:
+      size: 4039
+      sha256: 2ebdfafc0143a66132e1f790fc3909c93654ee89fbe468574c5c2a36070dc6b3
+  original:
+    hackage: Yampa-0.13.1@sha256:4612a2646c27bcd3ac55c90dbc34249303e28aa5b3bc3e0c6fa9ce58b889843c,5436
+- completed:
     hackage: hcwiid-0.0.6.1@sha256:93b22be73478eefd1145a6775618175932145ab317c12de91d5f8fce71a682ca,1323
     pantry-tree:
       size: 413
       sha256: faf9a6dd175e8db08345c62203d4c87bf5fc4a5458b5044557bfa512f44a1210
   original:
     hackage: hcwiid-0.0.6.1@sha256:93b22be73478eefd1145a6775618175932145ab317c12de91d5f8fce71a682ca,1323
-- completed:
-    hackage: simple-affine-space-0.1@sha256:09e582f2e12ce9feb251cbdacec57fa1f4a838ec63928026d98b758e89f9abd7,1931
-    pantry-tree:
-      size: 696
-      sha256: 08850098daa8939b543a3593f57d0814488eb612f807da769762495cac577089
-  original:
-    hackage: simple-affine-space-0.1@sha256:09e582f2e12ce9feb251cbdacec57fa1f4a838ec63928026d98b758e89f9abd7,1931
 snapshots:
 - completed:
-    size: 524996
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/27.yaml
-    sha256: 7ea31a280c56bf36ff591a7397cc384d0dff622e7f9e4225b47d8980f019a0f0
-  original: lts-14.27
+    size: 491373
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/15/3.yaml
+    sha256: 29e9ff61b8bf4b4fcff55cde3ac106ebb971f0d21331dccac9eee63374fa6ca8
+  original: lts-15.3
