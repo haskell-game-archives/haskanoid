@@ -13,3 +13,8 @@ extra-deps:
 - hcwiid-0.0.6.1@sha256:93b22be73478eefd1145a6775618175932145ab317c12de91d5f8fce71a682ca,1323
 
 allow-newer: true
+
+when:
+- condition: os(osx)
+  then:
+    cpp-options: -D_SDL_main_h

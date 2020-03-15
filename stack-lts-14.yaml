@@ -10,3 +10,8 @@ extra-deps:
 - SDL-ttf-0.6.3.0@sha256:e599ef3256b489071d0af6eccdc3a139ef09c09f935357a6c23766ed5ca2de45,1462
 - hcwiid-0.0.6.1@sha256:93b22be73478eefd1145a6775618175932145ab317c12de91d5f8fce71a682ca,1323
 - simple-affine-space-0.1@sha256:09e582f2e12ce9feb251cbdacec57fa1f4a838ec63928026d98b758e89f9abd7,1931
+
+when:
+- condition: os(osx)
+  then:
+    cpp-options: -D_SDL_main_h
