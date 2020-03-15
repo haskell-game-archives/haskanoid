@@ -46,8 +46,6 @@ jobs:
         brew install libfreenect
 
     - name: Configure
-      env:
-        STACK_YAML: stack-${{ matrix.resolver }}.yaml
       run: stack config set resolver ${{ matrix.resolver }}
 
     - name: Install dependencies & Build (Linux)
