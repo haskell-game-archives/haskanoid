@@ -46,6 +46,7 @@ jobs:
         brew install sdl libfreenect sdl_image sdl_mixer sdl_ttf pkg-config
 
         sed '54d' /usr/local/Cellar/sdl/1.2.15_1/include/SDL/SDL_main.h
+        cat /usr/local/Cellar/sdl/1.2.15_1/include/SDL/SDL_main.h
 
     - name: Configure
       run: stack config set resolver ${{ matrix.resolver }}
