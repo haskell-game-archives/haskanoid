@@ -43,11 +43,9 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         brew update
-        brew install sdl
+        brew install sdl libfreenect sdl_image sdl_mixer sdl_ttf pkg-config
 
         sed '54d' /usr/local/Cellar/sdl/1.2.15_1/include/SDL/SDL_main.h
-        
-        brew install libfreenect sdl_image sdl_mixer sdl_ttf pkg-config
 
     - name: Configure
       run: stack config set resolver ${{ matrix.resolver }}
