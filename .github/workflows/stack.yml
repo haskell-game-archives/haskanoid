@@ -16,8 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # os: [ubuntu-18.04, macos-10.15]
-        os: [ubuntu-18.04]
+        os: [ubuntu-18.04, macos-10.15]
         resolver: ["lts-14", "lts-15", "nightly"]
         cache-version: ["2020-03-15"]
 
@@ -46,16 +45,25 @@ jobs:
         brew update
         brew install alut
 
-    - name: Install dependencies
+    - name: Configure
       env:
         STACK_YAML: stack-${{ matrix.resolver }}.yaml
-      run: |
-        stack config set resolver ${{ matrix.resolver }}
-        stack test --only-dependencies
+      run: stack config set resolver ${{ matrix.resolver }}
 
-    - name: Build
+    - name: Install dependencies & Build (Linux)
+      if: runner.os == 'Linux'
       env:
         STACK_YAML: stack-${{ matrix.resolver }}.yaml
       run: |
+        stack test --only-dependencies
         stack test --fast
         stack install --fast
+
+    - name: Install dependencies & Build (Mac)
+      if: runner.os == 'macOS'
+      env:
+        STACK_YAML: stack-${{ matrix.resolver }}.yaml
+      run: |
+        stack test --only-dependencies --flag haskanoid:-wiimote
+        stack test --fast --flag haskanoid:-wiimote
+        stack install --fast --flag haskanoid:-wiimote
