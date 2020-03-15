@@ -42,6 +42,7 @@ jobs:
     - name: Install libralies (mac)
       if: runner.os == 'macOS'
       run: |
+        sed '54d' /usr/local/Cellar/sdl/1.2.15_1/include/SDL/SDL_main.h
         brew update
         brew install libfreenect sdl sdl_image sdl_mixer sdl_ttf pkg-config
 
@@ -62,6 +63,6 @@ jobs:
       env:
         STACK_YAML: stack-${{ matrix.resolver }}.yaml
       run: |
-        stack test --only-dependencies --flag haskanoid:-wiimote --ghc-options=-no-hs-main
+        stack test --only-dependencies --flag haskanoid:-wiimote
         stack test --fast --flag haskanoid:-wiimote
         stack install --fast --flag haskanoid:-wiimote
