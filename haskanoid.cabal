@@ -83,8 +83,6 @@ executable haskanoid
     , transformers
     , Yampa                ^>=0.13
 
-  -- , Yampa         >=0.9.6 && <0.12
-
   if flag(wiimote)
     build-depends: hcwiid
 
