@@ -43,7 +43,7 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         brew update
-        brew install libfreenect sdl
+        brew install libfreenect sdl sdl_image sdl_mixer sdl_ttf
 
     - name: Configure
       run: stack config set resolver ${{ matrix.resolver }}
