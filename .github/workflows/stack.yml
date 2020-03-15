@@ -43,7 +43,7 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         brew update
-        brew install alut
+        brew install libfreenect
 
     - name: Configure
       env:
