@@ -62,6 +62,6 @@ jobs:
       env:
         STACK_YAML: stack-${{ matrix.resolver }}.yaml
       run: |
-        stack test --only-dependencies --flag haskanoid:-wiimote
+        stack test --only-dependencies --flag haskanoid:-wiimote --ghc-options=-no-hs-main
         stack test --fast --flag haskanoid:-wiimote
         stack install --fast --flag haskanoid:-wiimote
