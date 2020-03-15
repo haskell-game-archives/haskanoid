@@ -42,7 +42,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libcwiid-dev
+        sudo apt-get install -y libcwiid-dev libsdl1.2-dev
 
     - name: Install dependencies
       run: |
