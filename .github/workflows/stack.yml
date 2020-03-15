@@ -37,7 +37,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libcwiid-dev libsdl1.2-dev
+        sudo apt-get install -y libcwiid-dev libsdl1.2-dev libsdl-image1.2-dev
 
     # - name: Install libralies (mac)
     #   if: runner.os == 'macOS'
