@@ -7,13 +7,12 @@
 -- are tested (against every game object). That's only 2 objects right now
 -- (making it almost linear in complexity), but it could easily grow and become
 -- too slow.
---
 module GameCollisions where
 
+import Data.IdentityList
 import Data.List
 import Data.Maybe
 import Objects
-import Data.IdentityList
 import Physics.TwoDimensions.Dimensions
 
 -- | Given a list of objects, it detects all the collisions between them.
@@ -21,19 +20,18 @@ import Physics.TwoDimensions.Dimensions
 -- Note: this is a simple n*m-complex algorithm, with n the
 -- number of objects and m the number of moving objects (right now,
 -- only 2).
---
 detectCollisions :: IL Object -> Collisions
 detectCollisions = detectCollisionsH
- where detectCollisionsH objsT = flattened
-         where -- Eliminate empty collision sets
-               -- TODO: why is this really necessary?
-               flattened = filter (\(Collision n) -> not (null n)) collisions
-
-               -- Detect collisions between moving objects and any other objects
-               collisions = detectCollisions' objsT moving
-
-               -- Partition the object space between moving and static objects
-               (moving, _static) = partition (canCauseCollisions.snd) $ assocsIL objsT
+  where
+    detectCollisionsH objsT = flattened
+      where
+        -- Eliminate empty collision sets
+        -- TODO: why is this really necessary?
+        flattened = filter (\(Collision n) -> not (null n)) collisions
+        -- Detect collisions between moving objects and any other objects
+        collisions = detectCollisions' objsT moving
+        -- Partition the object space between moving and static objects
+        (moving, _static) = partition (canCauseCollisions . snd) $ assocsIL objsT
 
 -- | Detect collisions between each moving object and
 -- every other object.
@@ -52,8 +50,8 @@ detectCollisions'' objsT m = concatMap (detectCollisions''' m) (assocsIL objsT)
 -- determine whether the two objects do collide.
 detectCollisions''' :: (ILKey, Object) -> (ILKey, Object) -> [Collision]
 detectCollisions''' m o
- | fst m == fst o = []    -- Same object -> no collision
- | otherwise      = maybeToList (detectCollision (snd m) (snd o))
+  | fst m == fst o = [] -- Same object -> no collision
+  | otherwise = maybeToList (detectCollision (snd m) (snd o))
 
 -- updateObjPos :: SF (ILKey, Object) (ILKey, Object)
 -- updateObjPos = proc (i,o) -> do
@@ -65,13 +63,13 @@ detectCollisions''' m o
 --   --
 --   -- Integral only for dt interval
 --   actualVel <- iterFrom (\_ (v1,v2) dt _ -> (v1 * dt, v2 * dt)) (0,0) -< objectVel o
--- 
+--
 --   -- Update position
 --   let newPos = objectPos o ^+^ actualVel
 --       o'     = o { objectPos = newPos }
 --   returnA -< (i,o')
 
--- killBall :: ObjectOutput -> ObjectOutput 
+-- killBall :: ObjectOutput -> ObjectOutput
 -- killBall oo = oo { outputObject = o' }
 --  where o  = outputObject oo
 --        o' = o { objectDead = True}
@@ -101,16 +99,15 @@ detectCollisions''' m o
 --   getting close? Cf. the old tail-gating approach.
 -- - Maybe a collision should also carry the identity of the object
 --   one collieded with to facilitate impl. of "inCollisionWith".
---
 changedVelocity :: ObjectName -> Collisions -> Maybe Vel2D
-changedVelocity name cs = 
-    case concatMap (filter ((== name) . fst) . collisionData) cs of
-        []          -> Nothing
-        (_, v') : _ -> Just v'
+changedVelocity name cs =
+  case concatMap (filter ((== name) . fst) . collisionData) cs of
+    [] -> Nothing
+    (_, v') : _ -> Just v'
 
-        -- IP: It should be something like the following, but that doesn't
-        -- work:
-        -- vs -> Just (foldl (^+^) (0,0) (map snd vs))
+-- IP: It should be something like the following, but that doesn't
+-- work:
+-- vs -> Just (foldl (^+^) (0,0) (map snd vs))
 
 -- | True if the velocity of the object has been changed by any collision.
 inCollision :: ObjectName -> Collisions -> Bool
@@ -119,7 +116,7 @@ inCollision name cs = isJust (changedVelocity name cs)
 -- | True if the two objects are colliding with one another.
 inCollisionWith :: ObjectName -> ObjectName -> Collisions -> Bool
 inCollisionWith nm1 nm2 cs = any (both nm1 nm2) cs
-    where
-        both nm1 nm2 (Collision nmvs) =
-            any ((== nm1) . fst) nmvs
-            && any ((== nm2) . fst) nmvs
+  where
+    both nm1' nm2' (Collision nmvs) =
+      any ((== nm1') . fst) nmvs
+        && any ((== nm2') . fst) nmvs
