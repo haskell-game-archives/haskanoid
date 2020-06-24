@@ -11,11 +11,10 @@
 -- general.
 module ObjectSF where
 
-import FRP.Yampa
-
-import Objects
-import Input
 import Data.IdentityList
+import FRP.Yampa
+import Input
+import Objects
 
 -- | Objects are defined as transformations that take 'ObjectInput' signals and
 -- return 'ObjectOutput' signals.
@@ -38,18 +37,19 @@ type ObjectSF = SF ObjectInput ObjectOutput
 -- game: because they are different instances, we need the exact same input to
 -- guarantee the exact same behaviour.
 data ObjectInput = ObjectInput
-  { userInput    :: Controller
-  , collisions   :: Collisions
-  , knownObjects :: Objects
+  { userInput :: Controller,
+    collisions :: Collisions,
+    knownObjects :: Objects
   }
 
 -- | What we can see about each live object at each time. It's a
 -- snapshot of the object.
 data ObjectOutput = ObjectOutput
-  { outputObject :: Object   -- ^ The object's state (position, shape, etc.).
-  , harakiri     :: Event () -- ^ Whether the object has died (killed itself).
-  } 
-
+  { -- | The object's state (position, shape, etc.).
+    outputObject :: Object,
+    -- | Whether the object has died (killed itself).
+    harakiri :: Event ()
+  }
 
 -- | Handy function to create an object that is currently alive.
 livingObject :: Object -> ObjectOutput
@@ -64,4 +64,3 @@ extractObjects = arr (fmap outputObject)
 
 -- | A list of object outputs
 type ObjectOutputs = [ObjectOutput]
-

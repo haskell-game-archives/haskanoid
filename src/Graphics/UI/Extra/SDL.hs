@@ -6,16 +6,16 @@ import Graphics.UI.SDL as SDL
 -- Auxiliary SDL stuff
 isEmptyEvent :: Event -> Bool
 isEmptyEvent NoEvent = True
-isEmptyEvent _       = False
+isEmptyEvent _ = False
 
 initializeTimeRef :: IO (IORef Int)
 initializeTimeRef = do
   -- Weird shit I have to do to get accurate time!
   timeRef <- newIORef (0 :: Int)
-  _       <- senseTimeRef timeRef
-  _       <- senseTimeRef timeRef
-  _       <- senseTimeRef timeRef
-  _       <- senseTimeRef timeRef
+  _ <- senseTimeRef timeRef
+  _ <- senseTimeRef timeRef
+  _ <- senseTimeRef timeRef
+  _ <- senseTimeRef timeRef
 
   return timeRef
 
@@ -25,8 +25,7 @@ senseTimeRef timeRef = do
   newTime <- fmap fromIntegral SDL.getTicks
 
   -- Obtain time difference
-  dt <- updateTime timeRef newTime
-  return dt
+  updateTime timeRef newTime
 
 -- | Updates the time in an IO Ref and returns the time difference
 updateTime :: IORef Int -> Int -> IO Int

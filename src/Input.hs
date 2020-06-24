@@ -1,5 +1,6 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE CPP                       #-}
+
 -- | Defines an abstraction for the game controller and the functions to read
 -- it.
 --
@@ -18,7 +19,7 @@
 -- updated version.
 --
 -- Limitations:
--- 
+--
 --    - Device failures are not handled.
 --
 --    - Falling back to the next available device when there's a problem.
@@ -27,26 +28,20 @@
 --
 --    - Using more than one device at a time. Changing that would be a one-line
 --    patch.
---
 module Input where
 
 -- External imports
-import Data.IORef
-import Graphics.UI.SDL as SDL
-import Control.Monad
 
 -- External imports (Wiimote)
 #ifdef wiimote
-import Control.Monad(void)
-import Control.Monad.IfElse (awhen)
-import Data.Maybe (fromMaybe)
+import Control.Monad.IfElse
+import Data.Maybe
 import System.CWiid
 #endif
 
 -- External imports (Kinect)
 #ifdef kinect
 import Control.Concurrent
-import Data.Maybe (fromJust)
 import Data.Vector.Storable (Vector,(!))
 import Data.Word
 import Freenect
@@ -54,25 +49,28 @@ import qualified Data.Vector.Storable as V
 #endif
 
 -- Internal imports
-import Control.Extra.Monad
-import Graphics.UI.Extra.SDL
 
 import Constants
+import Control.Extra.Monad
+import Control.Monad
+import Data.IORef
+import Graphics.UI.Extra.SDL
+import Graphics.UI.SDL as SDL
 
 -- * Game controller
 
 -- | Controller info at any given point.
 data Controller = Controller
-  { controllerPos   :: (Double, Double)
-  , controllerClick :: Bool
-  , controllerPause :: Bool
+  { controllerPos :: (Double, Double),
+    controllerClick :: Bool,
+    controllerPause :: Bool
   }
 
 -- | Controller info at any given point, plus a pointer
 -- to poll the main device again. This is safe,
 -- since there is only one writer at a time (the device itself).
-newtype ControllerRef =
-  ControllerRef (IORef Controller, Controller -> IO Controller)
+newtype ControllerRef
+  = ControllerRef (IORef Controller, Controller -> IO Controller)
 
 -- * General API
 
@@ -84,7 +82,7 @@ initializeInputDevices :: IO ControllerRef
 initializeInputDevices = do
   let baseDev = sdlGetController
 
--- Fall back to mouse/kb is no kinect is present
+  -- Fall back to mouse/kb is no kinect is present
 #ifdef kinect
   print "Kinecting"
   dev <- do kn <- kinectController
@@ -95,7 +93,7 @@ initializeInputDevices = do
   let dev = baseDev
 #endif
 
--- Fall back to kinect or mouse/kb is no wiimote is present
+  -- Fall back to kinect or mouse/kb is no wiimote is present
 #ifdef wiimote
   dev' <- do wm <- wiimoteDev
              return $ fromMaybe dev wm
@@ -105,12 +103,13 @@ initializeInputDevices = do
 
   nr <- newIORef defaultInfo
   return $ ControllerRef (nr, dev')
- where defaultInfo = Controller (0,0) False False
+  where
+    defaultInfo = Controller (0, 0) False False
 
 -- | Sense from the controller, providing its current
 -- state. This should return a new Controller state
 -- if available, or the last one there was.
--- 
+--
 -- It is assumed that the sensing function is always
 -- callable, and that it knows how to update the
 -- Controller info if necessary.
@@ -181,10 +180,10 @@ senseWiimote wmdev controller = do
 
   -- Direction (old system based on buttons)
   -- let isLeft  = cwiidIsBtnPushed flags cwiidBtnLeft
-  --     isRight = cwiidIsBtnPushed flags cwiidBtnRight 
+  --     isRight = cwiidIsBtnPushed flags cwiidBtnRight
   --     (x,y)   = controllerPos controller
   --     x'      = if isLeft then x - wiiXDiff else if isRight then x + wiiXDiff else x
-  --     x''     = inRange (0, gameWidth) x' 
+  --     x''     = inRange (0, gameWidth) x'
   --     pos'    = (x'', y)
   -- wiiXDiff :: Float
   -- wiiXDiff = 6
@@ -217,20 +216,19 @@ sdlMouseKB = return (Just sdlGetController)
 -- TODO: Check http://gameprogrammer.com/fastevents/fastevents1.html
 sdlGetController :: Controller -> IO Controller
 sdlGetController info =
-  foldLoopM info pollEvent (not.isEmptyEvent) ((return .) . handleEvent)
+  foldLoopM info pollEvent (not . isEmptyEvent) ((return .) . handleEvent)
 
 -- | Handles one event only and returns the updated controller.
 handleEvent :: Controller -> SDL.Event -> Controller
 handleEvent c e =
   case e of
-    MouseMotion x y _ _                      -> c { controllerPos   = (fromIntegral x, fromIntegral y)}
-    MouseButtonDown _ _ ButtonLeft           -> c { controllerClick = True }
-    MouseButtonUp   _ _ ButtonLeft           -> c { controllerClick = False} 
-    KeyUp Keysym { symKey = SDLK_p }         -> c { controllerPause = not (controllerPause c) }
-    KeyDown Keysym { symKey = SDLK_SPACE }   -> c { controllerClick = True  }
-    KeyUp Keysym { symKey = SDLK_SPACE }     -> c { controllerClick = False }
-    _                                        -> c
-
+    MouseMotion x y _ _ -> c {controllerPos = (fromIntegral x, fromIntegral y)}
+    MouseButtonDown _ _ ButtonLeft -> c {controllerClick = True}
+    MouseButtonUp _ _ ButtonLeft -> c {controllerClick = False}
+    KeyUp Keysym {symKey = SDLK_p} -> c {controllerPause = not (controllerPause c)}
+    KeyDown Keysym {symKey = SDLK_SPACE} -> c {controllerClick = True}
+    KeyUp Keysym {symKey = SDLK_SPACE} -> c {controllerClick = False}
+    _ -> c
 
 -- Kinect
 
@@ -266,7 +264,7 @@ getDepthThread screenSize lastPos = forkIO $ do
   withContext $ \context -> do
     setLogLevel LogFatal context
     selectSubdevices context devices
-    withDevice context index $ \device -> do
+    withDevice context index' $ \device -> do
       setDepthMode device Medium ElevenBit
       setDepthCallback device $ \payload _timestamp -> do
         maybe (print ".") -- Too far or too close
@@ -276,8 +274,9 @@ getDepthThread screenSize lastPos = forkIO $ do
       startDepth device
       forever $ processEvents context
 
-  where devices = [Camera]
-        index = 0 :: Integer
+  where
+    devices = [Camera]
+    index' = 0 :: Integer
 
 updatePos :: IORef (Maybe (Double, Double)) -> (Double, Double) -> IO ()
 updatePos lastPosRef newPos@(nx,ny) = do
@@ -288,21 +287,19 @@ updatePos lastPosRef newPos@(nx,ny) = do
   writeIORef lastPosRef (Just (mx, my))
   mx `seq` my `seq` return ()
 
-calculateMousePos :: (Double, Double) -> Vector Word16 -> Maybe (Double, Double) 
-calculateMousePos (width, height) payload =
-  fmap g (findFirst payload)
-  where g (px,py) = (mousex, mousey)
-         where
-           pointerx = fromIntegral (640 - px)
-           pointery = fromIntegral py
-           mousex   = pointerx -- pointerx * adjx
-           mousey   = pointery -- pointery * adjy
-           adjx     = width  / 630.0
-           adjy     = height / 470.0
+calculateMousePos :: (Double, Double) -> Vector Word16 -> Maybe (Double, Double)
+calculateMousePos _ = fmap g . findFirst
+  where
+    g (px,py) = (mousex, mousey)
+      where
+        pointerx = fromIntegral (640 - px)
+        pointery = fromIntegral py
+        mousex   = pointerx
+        mousey   = pointery
 
 mat :: Vector Float
 mat = V.generate 2048 (\i -> let v :: Float
-                                 v = ((fromIntegral i/2048.0)^3)*6.0 in v * 6.0 * 256.0)
+                                 v = ((fromIntegral i/2048.0) ^ (3::Int)) *6.0 in v * 6.0 * 256.0)
 
 findFirst :: Vector Word16 -> Maybe (Int, Int)
 findFirst vs = fmap (\v -> (v `mod` 640, v `div` 640)) i
@@ -330,4 +327,3 @@ adjust maxD old new
   | otherwise              = old - maxD
 
 #endif
-

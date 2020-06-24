@@ -4,7 +4,4 @@ packages:
 source-repository-package
   type: git
   location: https://github.com/haskell-hvr/missingh
-  tag: a936764af1c674f8217c237223c0759e4e4c0684
-
-allow-newer:
-  MissingH:base
+  tag: 2ff460c54aba86b7f5b6413af977c7044eac559c

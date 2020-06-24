@@ -1,0 +1,4 @@
+- ignore:
+    name:
+      - Use newtype instead of data
+      - Reduce duplication
