@@ -42,7 +42,7 @@ import Data.Traversable
 import Prelude hiding (foldr)
 
 instance Traversable IL where
-  traverse f (IL nextK assocs) = pure f' <*> traverse f vals
+  traverse f (IL nextK assocs) = f' <$> traverse f vals
     where
       (keys, vals) = unzip assocs
       f' vs = IL nextK (zip keys vs)
@@ -71,7 +71,7 @@ data IL a = IL {ilNextKey :: ILKey, ilAssocs :: [(ILKey, a)]}
 ------------------------------------------------------------------------------
 
 instance Functor IL where
-  fmap f (IL {ilNextKey = nk, ilAssocs = kas}) =
+  fmap f IL {ilNextKey = nk, ilAssocs = kas} =
     IL {ilNextKey = nk, ilAssocs = [(i, f a) | (i, a) <- kas]}
 
 ------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ insertIL_ :: a -> IL a -> IL a
 insertIL_ a il = snd (insertIL a il)
 
 insertIL :: a -> IL a -> (ILKey, IL a)
-insertIL a (IL {ilNextKey = k, ilAssocs = kas}) = (k, il')
+insertIL a IL {ilNextKey = k, ilAssocs = kas} = (k, il')
   where
     il' = IL {ilNextKey = k + 1, ilAssocs = (k, a) : kas}
 
@@ -114,7 +114,7 @@ elemsIL = map snd . ilAssocs
 ------------------------------------------------------------------------------
 
 deleteIL :: ILKey -> IL a -> IL a
-deleteIL k (IL {ilNextKey = nk, ilAssocs = kas}) =
+deleteIL k IL {ilNextKey = nk, ilAssocs = kas} =
   IL {ilNextKey = nk, ilAssocs = deleteHlp kas}
   where
     deleteHlp [] = []
@@ -124,10 +124,10 @@ deleteIL k (IL {ilNextKey = nk, ilAssocs = kas}) =
       | otherwise = ka : deleteHlp kas'
 
 updateIL :: ILKey -> a -> IL a -> IL a
-updateIL k v l = updateILWith k (const v) l
+updateIL k = updateILWith k . const
 
 updateILWith :: ILKey -> (a -> a) -> IL a -> IL a
-updateILWith k f l = mapIL g l
+updateILWith k f = mapIL g
   where
     g (k', v')
       | k == k' = f v'
@@ -142,15 +142,15 @@ updateILWith k f l = mapIL g l
 -- result element was derived.
 
 mapIL :: ((ILKey, a) -> b) -> IL a -> IL b
-mapIL f (IL {ilNextKey = nk, ilAssocs = kas}) =
+mapIL f IL {ilNextKey = nk, ilAssocs = kas} =
   IL {ilNextKey = nk, ilAssocs = [(k, f ka) | ka@(k, _) <- kas]}
 
 filterIL :: ((ILKey, a) -> Bool) -> IL a -> IL a
-filterIL p (IL {ilNextKey = nk, ilAssocs = kas}) =
+filterIL p IL {ilNextKey = nk, ilAssocs = kas} =
   IL {ilNextKey = nk, ilAssocs = filter p kas}
 
 mapFilterIL :: ((ILKey, a) -> Maybe b) -> IL a -> IL b
-mapFilterIL p (IL {ilNextKey = nk, ilAssocs = kas}) =
+mapFilterIL p IL {ilNextKey = nk, ilAssocs = kas} =
   IL
     { ilNextKey = nk,
       ilAssocs = [(k, b) | ka@(k, _) <- kas, Just b <- [p ka]]
@@ -164,13 +164,13 @@ lookupIL :: ILKey -> IL a -> Maybe a
 lookupIL k il = lookup k (ilAssocs il)
 
 findIL :: ((ILKey, a) -> Bool) -> IL a -> Maybe a
-findIL p IL{ilAssocs = kas} = findHlp kas
+findIL p IL {ilAssocs = kas} = findHlp kas
   where
     findHlp [] = Nothing
     findHlp (ka@(_, a) : kas') = if p ka then Just a else findHlp kas'
 
 mapFindIL :: ((ILKey, a) -> Maybe b) -> IL a -> Maybe b
-mapFindIL p IL{ilAssocs = kas} = mapFindHlp kas
+mapFindIL p IL {ilAssocs = kas} = mapFindHlp kas
   where
     mapFindHlp [] = Nothing
     mapFindHlp (ka : kas') = case p ka of
@@ -178,7 +178,7 @@ mapFindIL p IL{ilAssocs = kas} = mapFindHlp kas
       jb@(Just _) -> jb
 
 findAllIL :: ((ILKey, a) -> Bool) -> IL a -> [a]
-findAllIL p IL{ilAssocs = kas} = [a | ka@(_, a) <- kas, p ka]
+findAllIL p IL {ilAssocs = kas} = [a | ka@(_, a) <- kas, p ka]
 
 mapFindAllIL :: ((ILKey, a) -> Maybe b) -> IL a -> [b]
-mapFindAllIL p IL{ilAssocs = kas} = [b | ka <- kas, Just b <- [p ka]]
+mapFindAllIL p IL {ilAssocs = kas} = [b | ka <- kas, Just b <- [p ka]]

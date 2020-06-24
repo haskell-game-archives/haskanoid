@@ -1,4 +1,5 @@
 {-# LANGUAGE Arrows #-}
+{-# LANGUAGE TupleSections #-}
 
 -- | This module defines the game as a big Signal Function that transforms a
 -- Signal carrying a Input 'Controller' information into a Signal carrying
@@ -70,7 +71,7 @@ wholeGame =
   switch
     -- restart normal behaviour every time I'm out of lives
     (canLose >>> (arr id &&& outOfLevels))
-    (\_ -> wonGame)
+    (const wonGame)
 
 -- | Detect when the last level is finished.
 outOfLevels :: SF GameState (Event ())
@@ -83,7 +84,7 @@ canLose =
   switch
     -- retart normal behaviour every time I'm out of lives
     (gameAlive >>> (arr id &&& outOfLives))
-    (\_ -> restartGame)
+    (const restartGame)
 
 -- | Detect when the last life is lost.
 outOfLives :: SF GameState (Event ())
@@ -95,7 +96,7 @@ restartGame :: SF Controller GameState
 restartGame =
   switch
     (gameOver &&& after 3 ())
-    (\_ -> wholeGame)
+    (const wholeGame)
 
 -- | Produces a neutral 'GameOver' 'GameState'.
 gameOver :: SF a GameState
@@ -109,7 +110,7 @@ wonGame :: SF Controller GameState
 wonGame =
   switch
     (gameFinished &&& after 4 ())
-    (\_ -> wholeGame)
+    (const wholeGame)
 
 -- | Produces a neutral 'GameFinished' 'GameState'.
 gameFinished :: SF a GameState
@@ -150,7 +151,7 @@ loadLevel lives level pts time' next' =
   switch
     --
     (levelLoading lives level pts &&& after time' ())
-    (\_ -> next')
+    (const next')
 
 -- | Unconditionally output a neutral game state with the 'GameLoading' status,
 -- forever.
@@ -191,7 +192,7 @@ gameWithLives numLives level pts =
 -- | Detect if the level is completed (ie. if there are no more blocks).
 isLevelCompleted :: SF GameState (Event GameState)
 isLevelCompleted = proc s -> do
-  over <- edge -< not $ any isBlock (map objectKind (gameObjects s))
+  over <- edge -< not $ any (isBlock . objectKind) (gameObjects s)
   let snapshot = over `tag` s
   returnA -< snapshot
 
@@ -203,7 +204,7 @@ isLevelCompleted = proc s -> do
 -- a request to pause the game. Check out the code to learn how to
 -- implement pausing.
 gamePlayOrPause :: Int -> Int -> Int -> SF Controller GameState
-gamePlayOrPause lives level pts = gamePlay lives level pts
+gamePlayOrPause = gamePlay
 
 --  ((arr id) &&& (pause undefined (False --> isPaused) (mainLoop lives level)))
 --  >>> pauseGeneral
@@ -369,8 +370,7 @@ initialObjects level =
 -- bounding around, until it hits the floor ('bounceAroundDetectMiss').
 objBall :: ObjectSF
 objBall = switch followPaddleDetectLaunch $ \p ->
-  switch (bounceAroundDetectMiss p) $ \_ ->
-    objBall
+  switch (bounceAroundDetectMiss p) $ const objBall
   where
     -- Yampa's edge is used to turn the continuous
     -- signal produced by controllerClick into an
@@ -483,7 +483,7 @@ ballBounce' = proc (ObjectInput _ cs _, o) -> do
   -- detect an event directly after
   -- ev <- edgeJust -< changedVelocity "ball" cs
   let ev = maybe noEvent Event (changedVelocity "ball" cs)
-  returnA -< fmap (\v -> (objectPos (outputObject o), v)) ev
+  returnA -< fmap (objectPos (outputObject o),) ev
 
 -- | Position of the ball, starting from p0 with velicity v0, since the time of
 -- last switching (that is, collision, or the beginning of time --being fired

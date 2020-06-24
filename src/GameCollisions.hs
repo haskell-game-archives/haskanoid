@@ -36,7 +36,7 @@ detectCollisions = detectCollisionsH
 -- | Detect collisions between each moving object and
 -- every other object.
 detectCollisions' :: IL Object -> [(ILKey, Object)] -> [Collision]
-detectCollisions' objsT ms = concatMap (detectCollisions'' objsT) ms
+detectCollisions' = concatMap . detectCollisions''
 
 -- | Detect collisions between one specific moving object and every existing
 -- object. Each collision is idependent of the rest (which is not necessarily
@@ -115,7 +115,7 @@ inCollision name cs = isJust (changedVelocity name cs)
 
 -- | True if the two objects are colliding with one another.
 inCollisionWith :: ObjectName -> ObjectName -> Collisions -> Bool
-inCollisionWith nm1 nm2 cs = any (both nm1 nm2) cs
+inCollisionWith nm1 nm2 = any (both nm1 nm2)
   where
     both nm1' nm2' (Collision nmvs) =
       any ((== nm1') . fst) nmvs
