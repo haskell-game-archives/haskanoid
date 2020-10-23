@@ -50,9 +50,7 @@ import qualified Data.Vector.Storable as V
 
 -- Internal imports
 
-import Constants
 import Control.Extra.Monad
-import Control.Monad
 import Data.IORef
 import Graphics.UI.Extra.SDL
 import Graphics.UI.SDL as SDL

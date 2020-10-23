@@ -1,6 +1,5 @@
 module Graphics.UI.Extra.FPS where
 
-import Control.Monad
 import Data.IORef
 
 type FPSCounter = (IO Int, IORef FPSCounter', Int)
