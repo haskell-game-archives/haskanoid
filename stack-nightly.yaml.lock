@@ -66,7 +66,7 @@ packages:
     hackage: hcwiid-0.0.6.1@sha256:93b22be73478eefd1145a6775618175932145ab317c12de91d5f8fce71a682ca,1323
 snapshots:
 - completed:
-    size: 502299
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/6/22.yaml
-    sha256: 3b16e1f2e6d77dace4d39e0e1f33205474dafeaf492e9b0d8936a74450db55df
-  original: nightly-2020-06-22
+    size: 541635
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/10/23.yaml
+    sha256: ff158a60ee503b3e282295412894bc01337006cc8f5ab3a55daba0b196bd7288
+  original: nightly-2020-10-23

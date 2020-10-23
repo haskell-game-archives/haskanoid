@@ -14,12 +14,16 @@ author:        Ivan Perez and Henrik Nilsson
 maintainer:    ivan.perez@keera.co.uk
 category:      Game, Reactivity, FRP
 build-type:    Simple
-tested-with:   GHC ==8.6.5 || ==8.8.3 || ==8.10.1
+tested-with:   GHC ==8.6.5 || ==8.8.4 || ==8.10.2
 data-files:
   data/*.png
   data/*.wav
   data/*.mp3
   data/*.ttf
+
+source-repository head
+  type:     git
+  location: git://github.com/ivanperez-keera/haskanoid.git
 
 flag wiimote
   description: Enable Wiimote support with hcwiid
@@ -29,9 +33,19 @@ flag kinect
   description: Enable Kinect support (with freenect)
   default:     True
 
+common common
+  build-depends:
+    , base    >=4.12 && <4.15
+    , IfElse  ^>=0.85
+    , Yampa   ^>=0.13
+
+  ghc-options:      -Wall
+  default-language: Haskell2010
+
 executable haskanoid
-  -- .hs or .lhs file containing the Main module.
-  main-is:          Main.hs
+  import:        common
+  main-is:       app/Main.hs
+  build-depends: haskanoid
 
   if flag(wiimote)
     cpp-options: -Dwiimote
@@ -40,11 +54,14 @@ executable haskanoid
   if flag(kinect)
     cpp-options: -Dkinect
 
-  ghc-options:      -Wall -threaded
-  hs-source-dirs:   src/
+  ghc-options:   -O2
 
-  -- Modules included in this executable, other than Main.
-  other-modules:
+library
+  import:          common
+  hs-source-dirs:  src
+
+  -- cabal-fmt: expand src
+  exposed-modules:
     Audio
     Constants
     Control.Extra.Monad
@@ -58,6 +75,7 @@ executable haskanoid
     Game
     GameCollisions
     GameState
+    Graphics.UI.Extra.FPS
     Graphics.UI.Extra.SDL
     Input
     Levels
@@ -69,10 +87,7 @@ executable haskanoid
     Physics.TwoDimensions.Physics
     Resources
 
-  -- Other library packages from which modules are imported.
   build-depends:
-    , base                 >=4.12 && <4.15
-    , IfElse               ^>=0.85
     , MissingH             ^>=1.4
     , mtl                  ^>=2.2
     , SDL                  ^>=0.6
@@ -81,7 +96,6 @@ executable haskanoid
     , SDL-ttf              ^>=0.6
     , simple-affine-space  ^>=0.1
     , transformers         ^>=0.5
-    , Yampa                ^>=0.13
 
   if flag(wiimote)
     build-depends: hcwiid ^>=0.0.6
@@ -90,9 +104,3 @@ executable haskanoid
     build-depends:
       , freenect  ^>=1.2
       , vector    ^>=0.12
-
-  default-language: Haskell2010
-
-source-repository head
-  type:     git
-  location: git://github.com/ivanperez-keera/haskanoid.git
