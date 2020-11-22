@@ -16,10 +16,10 @@ category:      Game, Reactivity, FRP
 build-type:    Simple
 tested-with:   GHC ==8.6.5 || ==8.8.4 || ==8.10.2
 data-files:
-  data/*.png
-  data/*.wav
   data/*.mp3
+  data/*.png
   data/*.ttf
+  data/*.wav
 
 source-repository head
   type:     git
