@@ -101,8 +101,9 @@ restartGame =
 -- | Produces a neutral 'GameOver' 'GameState'.
 gameOver :: SF a GameState
 gameOver =
-  arr $ const $
-    neutralGameState {gameInfo = neutralGameInfo {gameStatus = GameOver}}
+  arr $
+    const $
+      neutralGameState {gameInfo = neutralGameInfo {gameStatus = GameOver}}
 
 -- | The game state is finished for 4 seconds, then the game is run again
 -- ('wholeGame').
@@ -115,8 +116,9 @@ wonGame =
 -- | Produces a neutral 'GameFinished' 'GameState'.
 gameFinished :: SF a GameState
 gameFinished =
-  arr $ const $
-    neutralGameState {gameInfo = neutralGameInfo {gameStatus = GameFinished}}
+  arr $
+    const $
+      neutralGameState {gameInfo = neutralGameInfo {gameStatus = GameFinished}}
 
 -- | Run the game from the beginning (no points, max lives, etc.).
 --
@@ -157,16 +159,17 @@ loadLevel lives level pts time' next' =
 -- forever.
 levelLoading :: Int -> Int -> Int -> SF a GameState
 levelLoading lvs lvl pts =
-  arr $ const $
-    neutralGameState
-      { gameInfo =
-          GameInfo
-            { gameStatus = GameLoading lvl,
-              gameLevel = lvl,
-              gameLives = lvs,
-              gamePoints = pts
-            }
-      }
+  arr $
+    const $
+      neutralGameState
+        { gameInfo =
+            GameInfo
+              { gameStatus = GameLoading lvl,
+                gameLevel = lvl,
+                gameLives = lvs,
+                gamePoints = pts
+              }
+        }
 
 -- | Start the game at a given level, with a given number of lives.
 --
@@ -346,6 +349,7 @@ gamePlay' objs =
         countBlocks = length . filter (isPrefixOf "block" . fst)
 
 -- * Game objects
+
 --
 
 -- | Objects initially present: the walls, the ball, the paddle and the blocks.

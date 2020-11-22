@@ -121,6 +121,7 @@ senseInput (ControllerRef (cref, sensor)) = do
 type ControllerDev = IO (Maybe (Controller -> IO Controller))
 
 -- * WiiMote API (mid-level)
+
 #ifdef wiimote
 
 -- | The wiimote controller as defined using this
