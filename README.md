@@ -1,6 +1,7 @@
 [![stack](https://github.com/haskell-game-archives/haskanoid/workflows/stack/badge.svg)](https://github.com/haskell-game-archives/haskanoid/actions?query=workflow%3Astack)
 [![cabal](https://github.com/haskell-game-archives/haskanoid/workflows/cabal/badge.svg)](https://github.com/haskell-game-archives/haskanoid/actions?query=workflow%3Acabal)
 [![lint](https://github.com/haskell-game-archives/haskanoid/workflows/lint/badge.svg)](https://github.com/haskell-game-archives/haskanoid/actions?query=workflow%3Alint)
+[![format](https://github.com/haskell-game-archives/haskanoid/workflows/format/badge.svg)](https://github.com/haskell-game-archives/haskanoid/actions?query=workflow%3Aformat)
 
 [![Version on Hackage](https://img.shields.io/hackage/v/haskanoid.svg)](https://hackage.haskell.org/package/haskanoid)
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=ivanperez-keera&url=https://github.com/ivanperez-keera/haskanoid&title=Haskanoid&language=&tags=github&category=software)
