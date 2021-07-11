@@ -538,11 +538,15 @@ objPaddle = proc (ObjectInput ci cs _) -> do
   -- Try to get to the mouse position, but with a capped
   -- velocity.
 
-  rec -- let v = limitNorm (20.0 *^ (refPosPaddle ci ^-^ p)) maxVNorm
+  -- rec
+      -- let v = limitNorm (20.0 *^ (refPosPaddle ci ^-^ p)) maxVNorm
       -- let p = refPosPaddle ci -- (initPosPaddle ^+^) ^<< integral -< v
-      let v = 100.00 *^ (refPosPaddle ci ^-^ p)
-      p <- (initPosPaddle ^+^) ^<< integral -< v
+      -- let v = 100.00 *^ (refPosPaddle ci ^-^ p)
+      -- p <- (initPosPaddle ^+^) ^<< integral -< v
   -- let p = refPosPaddle ci
+
+  let p = refPosPaddle ci
+  v <- derivative -< p
 
   --  Use this code if you want instantaneous movement,
   --  particularly cool with the Wiimote, but remember to cap

@@ -1,4 +1,4 @@
-resolver: lts-16.23 # ghc-8.8.4
+resolver: lts-16.31 # ghc-8.8.4
 extra-deps:
 - github: haskell-hvr/missingh
   commit: 2ff460c54aba86b7f5b6413af977c7044eac559c

@@ -1,4 +1,4 @@
-resolver: nightly-2021-07-04 # ghc-9.0.1
+resolver: lts-18.1 # ghc-8.10.4
 # extra-deps:
 # - github: haskell-hvr/missingh
 #   commit: 2ff460c54aba86b7f5b6413af977c7044eac559c
