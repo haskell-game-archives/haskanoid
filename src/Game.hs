@@ -546,7 +546,7 @@ objPaddle = proc (ObjectInput ci cs _) -> do
   -- let p = refPosPaddle ci
 
   let p = refPosPaddle ci
-  v <- derivative -< p
+  derivative -< p
 
   --  Use this code if you want instantaneous movement,
   --  particularly cool with the Wiimote, but remember to cap
@@ -581,8 +581,8 @@ refPosPaddle c = (x', yPosPaddle)
     x' = inRange (0, gameWidth - paddleWidth) (x - (paddleWidth / 2))
 
 -- | The initial position of the paddle, horizontally centered.
-initPosPaddle :: Pos2D
-initPosPaddle = ((gameWidth - paddleWidth) / 2, yPosPaddle)
+-- initPosPaddle :: Pos2D
+-- initPosPaddle = ((gameWidth - paddleWidth) / 2, yPosPaddle)
 
 -- | The paddle's vertical position, at a reasonable distance from the bottom.
 yPosPaddle :: Double

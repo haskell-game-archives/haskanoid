@@ -5,16 +5,16 @@
 
 packages:
 - completed:
-    size: 115165
-    url: https://github.com/haskell-hvr/missingh/archive/2ff460c54aba86b7f5b6413af977c7044eac559c.tar.gz
+    size: 105064
+    url: https://github.com/haskell-game-archives/missingh/archive/a3895c0e6f663432163489d077abe26d9c066aa2.tar.gz
     name: MissingH
-    version: 1.4.3.0
-    sha256: 320e2369bc0f56da92afeb84f128f4e70373b7aab4314029521b92499303654f
+    version: 1.4.4.0
+    sha256: e403e4f7572c5dee7624960d4267071eb19e655d7fbc06ed4e9f9c573e9cf6be
     pantry-tree:
-      size: 5909
-      sha256: 998f08009c5f679ea6bf48561cc3116684713b7555dfdec6b950dc047e65615a
+      size: 5363
+      sha256: bcb52feda2236c3fdad04c5b5ade44471d4b7acbad9a65c0b14dd1576e793299
   original:
-    url: https://github.com/haskell-hvr/missingh/archive/2ff460c54aba86b7f5b6413af977c7044eac559c.tar.gz
+    url: https://github.com/haskell-game-archives/missingh/archive/a3895c0e6f663432163489d077abe26d9c066aa2.tar.gz
 - completed:
     hackage: IfElse-0.85@sha256:6939b94acc6a55f545f63a168a349dd2fbe4b9a7cca73bf60282db5cc6aa47d2,445
     pantry-tree:
@@ -66,7 +66,7 @@ packages:
     hackage: hcwiid-0.0.6.1@sha256:93b22be73478eefd1145a6775618175932145ab317c12de91d5f8fce71a682ca,1323
 snapshots:
 - completed:
-    size: 532832
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/16/23.yaml
-    sha256: fbb2a0519008533924c7753bd7164ddd1009f09504eb06674acad6049b46db09
-  original: lts-16.23
+    size: 534126
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/16/31.yaml
+    sha256: 637fb77049b25560622a224845b7acfe81a09fdb6a96a3c75997a10b651667f6
+  original: lts-16.31

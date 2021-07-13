@@ -1,7 +1,7 @@
 resolver: lts-16.31 # ghc-8.8.4
 extra-deps:
-- github: haskell-hvr/missingh
-  commit: 2ff460c54aba86b7f5b6413af977c7044eac559c
+- github: haskell-game-archives/missingh
+  commit: a3895c0e6f663432163489d077abe26d9c066aa2
 - IfElse-0.85@sha256:6939b94acc6a55f545f63a168a349dd2fbe4b9a7cca73bf60282db5cc6aa47d2,445
 - SDL-0.6.7.0@sha256:9d6ba75c0cab575ec38468c8277803983e985f9622437aeca6a53e6a7337a7d5,2045
 - SDL-image-0.6.2.0@sha256:49234fd721f63969b461ffd94d73c163d82444c3716ef575b2a725aaac29ade6,1216
