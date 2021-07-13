@@ -539,10 +539,10 @@ objPaddle = proc (ObjectInput ci cs _) -> do
   -- velocity.
 
   -- rec
-      -- let v = limitNorm (20.0 *^ (refPosPaddle ci ^-^ p)) maxVNorm
-      -- let p = refPosPaddle ci -- (initPosPaddle ^+^) ^<< integral -< v
-      -- let v = 100.00 *^ (refPosPaddle ci ^-^ p)
-      -- p <- (initPosPaddle ^+^) ^<< integral -< v
+  -- let v = limitNorm (20.0 *^ (refPosPaddle ci ^-^ p)) maxVNorm
+  -- let p = refPosPaddle ci -- (initPosPaddle ^+^) ^<< integral -< v
+  -- let v = 100.00 *^ (refPosPaddle ci ^-^ p)
+  -- p <- (initPosPaddle ^+^) ^<< integral -< v
   -- let p = refPosPaddle ci
 
   let p = refPosPaddle ci
