@@ -36,7 +36,7 @@ jobs:
       run: |
         brew update
         brew install libfreenect sdl sdl_image sdl_mixer sdl_ttf pkg-config
-        sed -i -e "s/#define main	SDL_main//" /usr/local/Cellar/sdl/1.2.15_2/include/SDL/SDL_main.h
+        sed -i -e "s/#define main	SDL_main//" /usr/local/Cellar/sdl/1.2.15_3/include/SDL/SDL_main.h
 
     # See: https://github.com/actions/cache/issues/445
     - name: Install GNU tar
