@@ -33,10 +33,7 @@ jobs:
 
     - name: Install libralies (mac)
       if: runner.os == 'macOS'
-      # workaround: https://github.com/actions/virtual-environments/issues/1811
       run: |
-        # brew untap local/homebrew-openssl
-        # brew untap local/homebrew-python2
         brew update
         brew install libfreenect sdl sdl_image sdl_mixer sdl_ttf pkg-config
         sed -i -e "s/#define main	SDL_main//" /usr/local/Cellar/sdl/1.2.15_2/include/SDL/SDL_main.h
