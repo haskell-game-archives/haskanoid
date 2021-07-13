@@ -2,6 +2,7 @@
 [![cabal](https://github.com/haskell-game-archives/haskanoid/workflows/cabal/badge.svg)](https://github.com/haskell-game-archives/haskanoid/actions?query=workflow%3Acabal)
 [![lint](https://github.com/haskell-game-archives/haskanoid/workflows/lint/badge.svg)](https://github.com/haskell-game-archives/haskanoid/actions?query=workflow%3Alint)
 [![format](https://github.com/haskell-game-archives/haskanoid/workflows/format/badge.svg)](https://github.com/haskell-game-archives/haskanoid/actions?query=workflow%3Aformat)
+[![dependencies check](https://github.com/haskell-game-archives/haskanoid/actions/workflows/outdated.yml/badge.svg)](https://github.com/haskell-game-archives/haskanoid/actions/workflows/outdated.yml)
 
 [![Version on Hackage](https://img.shields.io/hackage/v/haskanoid.svg)](https://hackage.haskell.org/package/haskanoid)
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=ivanperez-keera&url=https://github.com/ivanperez-keera/haskanoid&title=Haskanoid&language=&tags=github&category=software)
@@ -134,7 +135,7 @@ Play](https://play.google.com/store/apps/details?id=uk.co.keera.games.magiccooki
 
 # Hands-on
 
-In the [hands-on file](https://github.com/ivanperez-keera/haskanoid/blob/master/hands-on.md)
+In the [hands-on file](https://github.com/ivanperez-keera/haskanoid/blob/master/docs/hands-on.md)
 you find ideas to improve haskanoid while focussing on (game)
 programming related areas that you might want to dive in deeper. The areas are:
 functional (reactive) programming, performance, human-computer interaction and

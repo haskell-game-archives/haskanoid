@@ -14,7 +14,7 @@ author:        Ivan Perez and Henrik Nilsson
 maintainer:    ivan.perez@keera.co.uk
 category:      Game, Reactivity, FRP
 build-type:    Simple
-tested-with:   GHC ==8.6.5 || ==8.8.4 || ==8.10.2
+tested-with:   GHC ==8.6.5 || ==8.8.4 || ==8.10.5 || ==9.0.1
 data-files:
   data/*.mp3
   data/*.png
@@ -33,11 +33,20 @@ flag kinect
   description: Enable Kinect support (with freenect)
   default:     True
 
+flag bearriver
+  description: Compile with bearriver instead of Yampa
+  default:     False
+
 common common
   build-depends:
-    , base    >=4.12 && <4.15
+    , base    >=4.12 && <4.16
     , IfElse  ^>=0.85
-    , Yampa   ^>=0.13
+
+  if flag(bearriver)
+    build-depends: bearriver >=0.9.6 && <0.14
+
+  else
+    build-depends: Yampa ^>=0.13
 
   ghc-options:      -Wall
   default-language: Haskell2010
@@ -95,7 +104,7 @@ library
     , SDL-mixer            ^>=0.6
     , SDL-ttf              ^>=0.6
     , simple-affine-space  ^>=0.1
-    , transformers         ^>=0.5
+    , transformers         >=0.5 && <0.7
 
   if flag(wiimote)
     build-depends: hcwiid ^>=0.0.6
