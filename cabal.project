@@ -4,13 +4,3 @@ source-repository-package
   type:     git
   location: https://github.com/haskell-game-archives/missingh
   tag:      a3895c0e6f663432163489d077abe26d9c066aa2
-
-source-repository-package
-  type:     git
-  location: https://github.com/haskell-game-archives/sdl2-mixer
-  tag:      568064ce491ff88ef4d73fded1cb7d1b0e44848a
-
-source-repository-package
-  type:     git
-  location: https://github.com/haskell-game-archives/sdl2-image
-  tag:      f9dc78083252d2e71d51a6474a94e8b8686a9018
